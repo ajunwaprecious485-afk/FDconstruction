@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SwiftLogix</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .home-hero {
+      padding: 18px 0 34px;
+    }
+
+    .home-carousel {
+      border-radius: 40px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 10%, rgba(240, 165, 0, 0.12), transparent 24%),
+        linear-gradient(135deg, #070b18 0%, #0e1324 55%, #10192f 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 34px 90px rgba(15, 23, 42, 0.22);
+      position: relative;
+    }
+
+    .home-carousel-viewport {
+      overflow: hidden;
+    }
+
+    .home-carousel-track {
+      display: flex;
+      transition: transform 720ms cubic-bezier(0.22, 0.61, 0.36, 1);
+      will-change: transform;
+    }
+
+    .home-carousel-slide {
+      position: relative;
+      min-width: 100%;
+      min-height: 760px;
+      padding: 0;
+      overflow: hidden;
+      display: block;
+      isolation: isolate;
+    }
+
+    .home-carousel-slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        linear-gradient(110deg, rgba(5, 9, 18, 0.88) 0%, rgba(5, 9, 18, 0.62) 40%, rgba(5, 9, 18, 0.24) 72%, rgba(5, 9, 18, 0.36) 100%),
+        linear-gradient(180deg, rgba(240, 165, 0, 0.06), transparent 44%);
+      pointer-events: none;
+    }
+
+    .home-carousel-copy {
+      position: absolute;
+      z-index: 2;
+      left: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: min(620px, calc(100% - 80px));
+      padding: 28px 28px 30px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, rgba(11, 16, 32, 0.68), rgba(11, 16, 32, 0.34));
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+      backdrop-filter: blur(12px);
+    }
+
+    .home-carousel-copy h1 {
+      margin: 18px 0 16px;
+      font-size: clamp(3rem, 5vw, 5.6rem);
+      line-height: 0.97;
+      letter-spacing: -0.08em;
+      color: #fff;
+    }
+
+    .home-carousel-copy p {
+      max-width: 650px;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 1.04rem;
+      line-height: 1.75;
+    }
+
+    .home-carousel-visual {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .home-carousel-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 0;
+      box-shadow: none;
+      filter: saturate(1.04) contrast(1.02);
+    }
+
+    .home-carousel-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(8, 12, 24, 0.08) 0%, rgba(8, 12, 24, 0.36) 100%),
+        linear-gradient(110deg, rgba(240, 165, 0, 0.10), transparent 44%);
+      pointer-events: none;
+    }
+
+    .home-carousel-float {
+      position: absolute;
+      min-width: 172px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+      backdrop-filter: blur(14px);
+    }
+
+    .home-carousel-float span {
+      display: block;
+      color: #667085;
+      font-size: 0.78rem;
+    }
+
+    .home-carousel-float strong {
+      color: #0e1324;
+      font-size: 1.28rem;
+      letter-spacing: -0.04em;
+    }
+
+    .home-carousel-float.one {
+      left: -14px;
+      bottom: 94px;
+    }
+
+    .home-carousel-float.two {
+      right: -14px;
+      top: 98px;
+    }
+
+    .hero-actions,
+    .hero-chip-row,
+    .hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .hero-actions {
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .hero-chip-row {
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .hero-metrics {
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.88rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-chip i {
+      color: #f0a500;
+    }
+
+    .metric-card {
+      min-width: 156px;
+      padding: 18px 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(12px);
+    }
+
+    .metric-card strong {
+      display: block;
+      color: #fff;
+      font-size: 1.55rem;
+      letter-spacing: -0.05em;
+    }
+
+    .metric-card span {
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 0.84rem;
+    }
+
+    .home-carousel-progress {
+      height: 4px;
+      margin: 0 42px 20px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .home-carousel-progress span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #f0a500 0%, #6ec6ff 100%);
+    }
+
+    @media (max-width: 1100px) {
+      .home-carousel-slide {
+        min-height: 640px;
+      }
+
+      .home-carousel-footer {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        padding: 0 24px 24px;
+      }
+
+      .carousel-meta {
+        align-items: center;
+      }
+
+      .home-carousel-progress {
+        margin: 0 24px 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .home-hero {
+        padding: 14px 0 28px;
+      }
+
+      .home-carousel {
+        border-radius: 28px;
+      }
+
+      .home-carousel-slide {
+        min-height: 580px;
+      }
+
+      .home-carousel-copy h1 {
+        font-size: 2.15rem;
+      }
+
+      .home-carousel-copy p {
+        font-size: 0.92rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .hero-actions .btn,
+      .hero-actions .btn-primary,
+      .hero-actions .btn-hero-outline {
+        width: 100%;
+        text-align: center;
+      }
+
+      .hero-chip-row,
+      .hero-metrics {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .hero-chip,
+      .metric-card {
+        width: 100%;
+      }
+
+      .home-carousel-copy {
+        left: 14px;
+        right: 14px;
+        top: auto;
+        bottom: 14px;
+        transform: none;
+        width: auto;
+        padding: 18px 16px 16px;
+        border-radius: 22px;
+      }
+
+      .home-carousel-float {
+        min-width: 0;
+        width: calc(100% - 24px);
+        left: 12px !important;
+        right: 12px !important;
+        transform: none !important;
+      }
+
+      .home-carousel-float.one {
+        bottom: 12px;
+      }
+
+      .home-carousel-float.two {
+        top: 12px;
+      }
+
+      .home-carousel-progress {
+        margin: 0 16px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <span><i class="fas fa-clock"></i> 24/7 Support</span>
+      <span class="top-bar-divider"></span>
+      <span><i class="fas fa-warehouse"></i> 6 US Warehouses</span>
+      <span class="top-bar-divider"></span>
+      <span><i class="fas fa-phone"></i> (888) 555-1234</span>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" class="logo">SwiftLogix</a>
+      <nav class="nav" id="nav">
+        <ul class="nav-list">
+          <li class="nav-item dropdown">
+            <a href="services/services.html" class="nav-link">Services <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+              <li><a href="services/services.html">Overview</a></li>
+              <li><a href="services/pick-and-pack.html">Pick and Pack</a></li>
+              <li><a href="services/warehousing-storage.html">Warehousing / Storage</a></li>
+              <li><a href="services/fba-prep.html">FBA Prep</a></li>
+              <li><a href="services/returns-management.html">Returns Management</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a href="services/pricing.html" class="nav-link">Pricing</a></li>
+          <li class="nav-item"><a href="services/integrations.html" class="nav-link">Integrations</a></li>
+          <li class="nav-item"><a href="services/resources.html" class="nav-link">Resources</a></li>
+          <li class="nav-item dropdown">
+            <a href="services/about.html" class="nav-link">Company <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+              <li><a href="services/about.html">About</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="nav-actions">
+          <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+          <a href="#" class="btn btn-outline">Login</a>
+          <a href="services/pricing.html" class="btn btn-primary">Get a Quote</a>
+        </div>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="home-hero">
+      <div class="section-shell">
+        <div class="home-carousel" id="homeCarousel" tabindex="0" aria-roledescription="carousel" aria-label="SwiftLogix homepage hero carousel">
+          <div class="home-carousel-viewport">
+            <div class="home-carousel-track">
+              <article class="home-carousel-slide active" data-label="Modern fulfillment network" data-kicker="Modern fulfillment network">
+                <div class="home-carousel-copy">
+                  <span class="hero-kicker">Modern fulfillment network</span>
+                  <h1>Fulfillment built for brands that need speed, clarity, and control.</h1>
+                  <p>SwiftLogix helps ecommerce teams ship faster with nationwide warehousing, clean software, and premium post-purchase experiences that scale with demand.</p>
+                  <div class="hero-actions">
+                    <a href="services/pricing.html" class="btn btn-primary btn-lg">Get a Custom Quote</a>
+                    <a href="services/integrations.html" class="btn btn-hero-outline">View Integrations</a>
+                  </div>
+                  <div class="hero-chip-row">
+                    <span class="hero-chip"><i class="fas fa-check"></i> Same-day fulfillment</span>
+                    <span class="hero-chip"><i class="fas fa-check"></i> Real-time tracking</span>
+                    <span class="hero-chip"><i class="fas fa-check"></i> 6 US warehouses</span>
+                  </div>
+                  <div class="hero-metrics">
+                    <div class="metric-card">
+                      <strong>99.7%</strong>
+                      <span>Pick accuracy</span>
+                    </div>
+                    <div class="metric-card">
+                      <strong>48h</strong>
+                      <span>Average delivery</span>
+                    </div>
+                    <div class="metric-card">
+                      <strong>15K+</strong>
+                      <span>Orders per month</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="home-carousel-visual">
+                  <img src="FDimage/showcase-ship.jpg" alt="Shipping van being loaded with packages for delivery" loading="eager" decoding="async">
+                  <div class="home-carousel-float one">
+                    <span>Live orders</span>
+                    <strong>2,418</strong>
+                  </div>
+                  <div class="home-carousel-float two">
+                    <span>On-time SLA</span>
+                    <strong>99.8%</strong>
+                  </div>
+                </div>
+              </article>
+
+              <article class="home-carousel-slide" data-label="Warehousing and inventory" data-kicker="Warehousing and inventory">
+                <div class="home-carousel-copy">
+                  <span class="hero-kicker">Warehousing and inventory</span>
+                  <h1>Smart storage that keeps products close and ready to move.</h1>
+                  <p>Organized inventory zones, secure handling, and multi-warehouse routing keep stock visible and transit times low across your entire fulfillment network.</p>
+                  <div class="hero-actions">
+                    <a href="services/warehousing-storage.html" class="btn btn-primary btn-lg">Explore Warehousing</a>
+                    <a href="services/pricing.html" class="btn btn-hero-outline">View Pricing</a>
+                  </div>
+                  <div class="hero-chip-row">
+                    <span class="hero-chip"><i class="fas fa-check"></i> Inventory visibility</span>
+                    <span class="hero-chip"><i class="fas fa-check"></i> Secure storage zones</span>
+                    <span class="hero-chip"><i class="fas fa-check"></i> Faster routing</span>
+                  </div>
+                  <div class="hero-metrics">
+                    <div class="metric-card">
+                      <strong>6</strong>
+                      <span>US warehouses</span>
+                    </div>
+                    <div class="metric-card">
+                      <strong>99.6%</strong>
+                      <span>Inventory accuracy</span>
+                    </div>
+                    <div class="metric-card">
+                      <strong>24/7</strong>
+                      <span>Visibility</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="home-carousel-visual">
+                  <img src="FDimage/showcase-prep-area.jpg" alt="Forklift moving prepared pallets inside a fulfillment warehouse" loading="lazy" decoding="async">
+                  <div class="home-carousel-float one">
+                    <span>Storage zones</span>
+                    <strong>Organized</strong>
+                  </div>
+                  <div class="home-carousel-float two">
+                    <span>Inbound SLA</span>
+                    <strong>Fast turn</strong>
+                  </div>
+                </div>
+              </article>
+
+              <article class="home-carousel-slide" data-label="Connected operations" data-kicker="Connected operations">
+                <div class="home-carousel-copy">
+                  <span class="hero-kicker">Connected operations</span>
+                  <h1>One platform for orders, dashboards, and returns.</h1>
+                  <p>Real-time integrations, reporting, and returns workflows keep your storefront synced with the warehouse so your team can act quickly and confidently.</p>
+                  <div class="hero-actions">
+                    <a href="services/integrations.html" class="btn btn-primary btn-lg">View Integrations</a>
+                    <a href="services/returns-management.html" class="btn btn-hero-outline">Manage Returns</a>
+                  </div>
+                  <div class="hero-chip-row">
+                    <span class="hero-chip"><i class="fas fa-check"></i> Live sync</span>
+                    <span class="hero-chip"><i class="fas fa-check"></i> Reporting dashboards</span>
+                    <span class="hero-chip"><i class="fas fa-check"></i> Returns workflow</span>
+                  </div>
+                  <div class="hero-metrics">
+                    <div class="metric-card">
+                      <strong>50+</strong>
+                      <span>Integrations</span>
+                    </div>
+                    <div class="metric-card">
+                      <strong>2M+</strong>
+                      <span>Orders fulfilled</span>
+                    </div>
+                    <div class="metric-card">
+                      <strong>30%</strong>
+                      <span>Less admin drag</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="home-carousel-visual">
+                  <img src="FDimage/showcase-aisles.jpg" alt="Organized warehouse aisles with stored inventory" loading="lazy" decoding="async">
+                  <div class="home-carousel-float one">
+                    <span>Live sync</span>
+                    <strong>Enabled</strong>
+                  </div>
+                  <div class="home-carousel-float two">
+                    <span>Returns</span>
+                    <strong>Managed</strong>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="home-carousel-progress" aria-hidden="true"><span></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-strip">
+      <div class="section-shell trust-strip-inner">
+        <span><i class="fas fa-shipping-fast"></i> UPS, FedEx, USPS, DHL</span>
+        <span><i class="fas fa-cart-shopping"></i> Shopify, Amazon, WooCommerce</span>
+        <span><i class="fas fa-chart-line"></i> Forecasting and analytics</span>
+        <span><i class="fas fa-shield-halved"></i> Secure warehouse operations</span>
+      </div>
+    </section>
+
+    <section class="section-block trust-indicators" aria-labelledby="trust-indicators-title">
+      <div class="section-shell">
+        <div class="trust-indicators-head">
+          <span class="section-label">Trusted fulfillment performance</span>
+          <h2 id="trust-indicators-title">Operational reliability customers can measure.</h2>
+          <p>Clear service levels, national warehouse coverage, carrier flexibility, and always-on support help brands ship with confidence.</p>
+        </div>
+        <div class="trust-indicator-grid">
+          <article class="trust-indicator-card">
+            <div class="trust-icon"><i class="fas fa-bullseye"></i></div>
+            <strong>99.7%</strong>
+            <h3>Delivery accuracy</h3>
+            <p>Barcode scanning and quality checks reduce misships, wrong items, and fulfillment errors.</p>
+          </article>
+          <article class="trust-indicator-card">
+            <div class="trust-icon"><i class="fas fa-warehouse"></i></div>
+            <strong>6</strong>
+            <h3>US warehouses</h3>
+            <p>Distributed storage keeps inventory closer to customers and improves delivery speed nationwide.</p>
+          </article>
+          <article class="trust-indicator-card">
+            <div class="trust-icon"><i class="fas fa-truck-fast"></i></div>
+            <strong>12+</strong>
+            <h3>Carrier partners</h3>
+            <p>Flexible carrier routing helps balance price, speed, service levels, and regional coverage.</p>
+          </article>
+          <article class="trust-indicator-card">
+            <div class="trust-icon"><i class="fas fa-headset"></i></div>
+            <strong>24/7</strong>
+            <h3>Support availability</h3>
+            <p>Responsive logistics support gives teams help when shipments, returns, or inventory need attention.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="section-shell">
+        <div class="section-head">
+          <span class="section-label">Core services</span>
+          <h2>Everything you need to run fulfillment like a modern brand.</h2>
+          <p>We replaced the older homepage flow with a cleaner service story, stronger imagery, and faster paths to the pages users actually need.</p>
+        </div>
+        <div class="service-grid">
+          <article class="service-card">
+            <img src="FDimage/home-service-fulfillment.jpg" alt="Fulfillment workflow" loading="lazy" decoding="async">
+            <div class="service-body">
+              <span class="service-tag">Operations</span>
+              <h3>Pick, pack, and ship with precision.</h3>
+              <p>Barcode scanning, branded packing, and same-day workflow control built for fast-moving catalogs.</p>
+              <a href="services/pick-and-pack.html">Explore fulfillment <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </article>
+          <article class="service-card">
+            <img src="FDimage/home-service-warehouse.jpg" alt="Warehouse storage" loading="lazy" decoding="async">
+            <div class="service-body">
+              <span class="service-tag">Inventory</span>
+              <h3>Smart warehousing and secure storage.</h3>
+              <p>Organized inventory zones, climate-aware storage, and faster routes to customers nationwide.</p>
+              <a href="services/warehousing-storage.html">See storage options <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </article>
+          <article class="service-card">
+            <img src="FDimage/home-service-tech.jpg" alt="Software and integrations" loading="lazy" decoding="async">
+            <div class="service-body">
+              <span class="service-tag">Technology</span>
+              <h3>Connected systems and live visibility.</h3>
+              <p>Integrations, dashboards, and reporting that keep inventory, orders, and shipping in sync.</p>
+              <a href="services/integrations.html">View integrations <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </article>
+          <article class="service-card">
+            <img src="FDimage/home-service-returns.jpg" alt="Returns management" loading="lazy" decoding="async">
+            <div class="service-body">
+              <span class="service-tag">Returns</span>
+              <h3>Turn returns into a controlled process.</h3>
+              <p>Inspect, grade, restock, or dispose of returns with clear rules and full inventory sync.</p>
+              <a href="services/returns-management.html">Manage returns <i class="fas fa-arrow-right"></i></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block section-alt">
+      <div class="section-shell split-layout">
+        <div class="split-visual">
+          <img src="FDimage/home-dashboard.jpg" alt="Fulfillment analytics dashboard" loading="lazy" decoding="async">
+        </div>
+        <div class="split-copy">
+          <span class="section-label">Modern platform</span>
+          <h2>Give your team one place to see orders, stock, and shipping performance.</h2>
+          <p>Modern fulfillment is more than moving boxes. It is visibility, accountability, and the ability to make fast decisions with clean data.</p>
+          <div class="benefit-list">
+            <div class="benefit-item">
+              <i class="fas fa-layer-group"></i>
+              <div>
+                <strong>Inventory clarity</strong>
+                <p>Always know what is inbound, in stock, reserved, and ready to ship.</p>
+              </div>
+            </div>
+            <div class="benefit-item">
+              <i class="fas fa-bolt"></i>
+              <div>
+                <strong>Faster routing</strong>
+                <p>Orders route to the best warehouse automatically to cut transit time and cost.</p>
+              </div>
+            </div>
+            <div class="benefit-item">
+              <i class="fas fa-chart-simple"></i>
+              <div>
+                <strong>Actionable reporting</strong>
+                <p>Track velocity, accuracy, shipping costs, and service levels without digging through spreadsheets.</p>
+              </div>
+            </div>
+          </div>
+          <a href="services/resources.html" class="btn btn-primary btn-lg">See our resources</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="section-shell">
+        <div class="section-head">
+          <span class="section-label">How it works</span>
+          <h2>A cleaner process from inbound inventory to doorstep delivery.</h2>
+          <p>The homepage now tells the story in a more premium, scannable way for both desktop and mobile users.</p>
+        </div>
+        <div class="process-grid">
+          <article class="process-card">
+            <span class="process-num">01</span>
+            <h3>Receive inventory</h3>
+            <p>Inbound stock is checked, labeled, and stored in the best fulfillment zone.</p>
+          </article>
+          <article class="process-card">
+            <span class="process-num">02</span>
+            <h3>Store and sync</h3>
+            <p>Inventory stays organized while your storefront updates in real time.</p>
+          </article>
+          <article class="process-card">
+            <span class="process-num">03</span>
+            <h3>Pick and pack</h3>
+            <p>Orders are picked with barcode accuracy and packed to your brand standard.</p>
+          </article>
+          <article class="process-card">
+            <span class="process-num">04</span>
+            <h3>Ship and track</h3>
+            <p>Customers get reliable delivery with tracking and clear shipment updates.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block section-alt">
+      <div class="section-shell result-layout">
+        <div class="result-copy">
+          <span class="section-label">Why brands switch</span>
+          <h2>Higher clarity. Better service. Less operational drag.</h2>
+          <p>Fulfillment should feel like an advantage, not a burden. We built the experience around speed, trust, and simplicity.</p>
+          <div class="result-stats">
+            <div>
+              <strong>2M+</strong>
+              <span>Orders fulfilled</span>
+            </div>
+            <div>
+              <strong>200+</strong>
+              <span>Team members</span>
+            </div>
+            <div>
+              <strong>4.9/5</strong>
+              <span>Client rating</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-grid">
+          <article class="testimonial-card">
+            <p>We cut our shipping delays and finally had one dashboard the whole team could trust.</p>
+            <span>Operations lead, DTC skincare brand</span>
+          </article>
+          <article class="testimonial-card">
+            <p>The new fulfillment setup feels polished, fast, and built for growth.</p>
+            <span>Founder, consumer electronics brand</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="section-shell">
+        <div class="section-head">
+          <span class="section-label">Pricing preview</span>
+          <h2>Simple plans that scale with your order volume.</h2>
+          <p>Modern pricing that is easy to understand on desktop and mobile, with a clear path to custom quoting.</p>
+        </div>
+        <div class="pricing-preview-grid">
+          <article class="preview-card">
+            <span class="preview-tag">Starter</span>
+            <strong>$2.49</strong>
+            <p>Best for small brands that need reliable fulfillment without long-term commitments.</p>
+            <a href="services/pricing.html">Explore pricing</a>
+          </article>
+          <article class="preview-card featured">
+            <span class="preview-tag">Most Popular</span>
+            <strong>$1.89</strong>
+            <p>Built for growing brands that need better rates, stronger reporting, and more control.</p>
+            <a href="services/pricing.html">View plan details</a>
+          </article>
+          <article class="preview-card">
+            <span class="preview-tag">Enterprise</span>
+            <strong>Custom</strong>
+            <p>Dedicated logistics support, custom integrations, and warehouse strategy at scale.</p>
+            <a href="services/pricing.html">Talk to sales</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="section-shell">
+        <div class="cta-panel">
+          <div class="cta-copy">
+            <span class="section-label">Ready to scale</span>
+            <h2>Upgrade your fulfillment experience with a premium operation built for growth.</h2>
+            <p>Get a quote, review your shipping workflow, or explore integrations. We'll help you build a setup that looks and performs like a serious brand.</p>
+          </div>
+          <div class="cta-actions">
+            <a href="services/pricing.html" class="btn btn-primary btn-lg">Get a quote</a>
+            <a href="services/integrations.html" class="btn btn-outline">See integrations</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="section-shell footer-shell">
+      <div class="footer-panel">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <h3>SwiftLogix</h3>
+            <p>Premium fulfillment partner for ecommerce brands. Warehousing, pick and pack, FBA prep, integrations, and returns with speed, clarity, and control.</p>
+            <div class="footer-badges">
+              <span><i class="fas fa-clock"></i> 24/7 Support</span>
+              <span><i class="fas fa-warehouse"></i> 6 US Warehouses</span>
+              <span><i class="fas fa-truck-fast"></i> Same-day dispatch</span>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul class="footer-links-list">
+              <li><a href="services/pick-and-pack.html">Pick and Pack</a></li>
+              <li><a href="services/warehousing-storage.html">Warehousing & Storage</a></li>
+              <li><a href="services/fba-prep.html">FBA Prep</a></li>
+              <li><a href="services/returns-management.html">Returns Management</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Resources</h4>
+            <ul class="footer-links-list">
+              <li><a href="services/pricing.html">Pricing</a></li>
+              <li><a href="services/integrations.html">Integrations</a></li>
+              <li><a href="services/resources.html">Resources</a></li>
+              <li><a href="services/about.html">About</a></li>
+            </ul>
+          </div>
+          <div class="footer-col footer-contact">
+            <h4>Contact</h4>
+            <strong>(888) 555-1234</strong>
+            <a href="mailto:hello@swiftlogix.com">hello@swiftlogix.com</a>
+            <p>Serving ecommerce brands nationwide with scalable fulfillment operations.</p>
+            <div class="footer-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 SwiftLogix. All rights reserved.</span>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Shipping Policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+
+    hamburger.addEventListener('click', function() {
+      this.classList.toggle('active');
+      nav.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.dropdown > .nav-link').forEach(link => {
+      link.addEventListener('click', (event) => {
+        if (window.innerWidth <= 900) {
+          event.preventDefault();
+          link.parentElement.classList.toggle('open');
+        }
+      });
+    });
+
+    const carousel = document.getElementById('homeCarousel');
+    if (carousel) {
+      const track = carousel.querySelector('.home-carousel-track');
+      const slides = Array.from(carousel.querySelectorAll('.home-carousel-slide'));
+      const progressEl = carousel.querySelector('.home-carousel-progress span');
+      const delay = 6500;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      let index = 0;
+      let autoplayTimer = null;
+      let touchStartX = null;
+
+      function animateProgress() {
+        if (!progressEl) return;
+        progressEl.style.transition = 'none';
+        progressEl.style.width = '0%';
+        requestAnimationFrame(() => {
+          progressEl.style.transition = `width ${delay}ms linear`;
+          progressEl.style.width = '100%';
+        });
+      }
+
+      function render() {
+        track.style.transform = `translateX(-${index * 100}%)`;
+        slides.forEach((slide, slideIndex) => {
+          const active = slideIndex === index;
+          slide.classList.toggle('active', active);
+          slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+        });
+        animateProgress();
+      }
+
+      function stopAutoplay() {
+        if (autoplayTimer) {
+          clearInterval(autoplayTimer);
+          autoplayTimer = null;
+        }
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        if (reducedMotion.matches || slides.length < 2) return;
+        autoplayTimer = window.setInterval(() => {
+          index = (index + 1) % slides.length;
+          render();
+        }, delay);
+      }
+
+      function goTo(targetIndex) {
+        index = (targetIndex + slides.length) % slides.length;
+        render();
+      }
+
+      carousel.addEventListener('mouseenter', stopAutoplay);
+      carousel.addEventListener('mouseleave', startAutoplay);
+      carousel.addEventListener('focusin', stopAutoplay);
+      carousel.addEventListener('focusout', startAutoplay);
+
+      carousel.addEventListener('pointerdown', (event) => {
+        touchStartX = event.clientX;
+      });
+
+      carousel.addEventListener('pointerup', (event) => {
+        if (touchStartX === null) return;
+        const delta = event.clientX - touchStartX;
+        touchStartX = null;
+        if (Math.abs(delta) > 60) {
+          if (delta < 0) {
+            goTo(index + 1);
+          } else {
+            goTo(index - 1);
+          }
+        }
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          stopAutoplay();
+        } else {
+          startAutoplay();
+        }
+      });
+
+      reducedMotion.addEventListener('change', () => {
+        if (reducedMotion.matches) {
+          stopAutoplay();
+        } else {
+          startAutoplay();
+        }
+      });
+
+      render();
+      if (!reducedMotion.matches) {
+        startAutoplay();
+      }
+    }
+
+    const revealTargets = document.querySelectorAll('.home-hero, .trust-strip, .section-block');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealTargets.forEach(target => {
+      target.classList.add('reveal');
+      revealObserver.observe(target);
+    });
+  </script>
+</body>
+</html>

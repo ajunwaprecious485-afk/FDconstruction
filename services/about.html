@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About SwiftLogix</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .page-hero {
+      background: linear-gradient(135deg, rgba(26,26,46,0.93) 0%, rgba(45,45,74,0.88) 100%);
+      padding: 84px 0 66px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+    .page-hero .page-badge {
+      display: inline-block; background: rgba(240,165,0,0.12); color: #f0a500;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase;
+      padding: 6px 18px; border-radius: 100px; border: 1px solid rgba(240,165,0,0.2); margin-bottom: 18px;
+    }
+    .page-hero h1 { font-size: 2.9rem; font-weight: 800; color: #fff; margin-bottom: 12px; letter-spacing: -1px; }
+    .page-hero p { font-size: 1.08rem; color: rgba(255,255,255,0.62); max-width: 680px; margin: 0 auto; line-height: 1.7; }
+    .hero-stats { display: flex; justify-content: center; gap: 44px; margin-top: 34px; flex-wrap: wrap; }
+    .hero-stats .stat { text-align: center; }
+    .hero-stats .stat-num { font-size: 1.9rem; font-weight: 800; color: #f0a500; display: block; }
+    .hero-stats .stat-label { font-size: 0.82rem; color: rgba(255,255,255,0.56); }
+    .page-section { padding: 80px 0; }
+    .page-section:nth-child(even) { background: #f6f8fc; }
+    .page-inner { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .nav-link.active { background: #f0f4ff; color: #1a1a2e; }
+    .section-title { font-size: 2rem; font-weight: 800; color: #1a1a2e; text-align: center; letter-spacing: -0.8px; margin-bottom: 10px; }
+    .section-sub { font-size: 1rem; color: #888; text-align: center; max-width: 620px; margin: 0 auto 36px; line-height: 1.7; }
+    .company-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .company-card {
+      background: #fff; border: 1px solid #edf0f6; border-radius: 14px; padding: 26px 22px;
+      transition: border-color 0.3s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    }
+    .company-card:hover { border-color: #f0a500; transform: translateY(-3px); box-shadow: 0 8px 28px rgba(240,165,0,0.06); }
+    .company-card i { font-size: 1.5rem; color: #f0a500; margin-bottom: 12px; }
+    .company-card h4 { font-size: 1rem; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+    .company-card p { font-size: 0.88rem; color: #888; line-height: 1.6; }
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 28px;
+      align-items: center;
+    }
+    .split-visual img {
+      width: 100%;
+      border-radius: 24px;
+      box-shadow: 0 18px 42px rgba(8, 17, 31, 0.14);
+      object-fit: cover;
+      aspect-ratio: 1.2 / 1;
+      display: block;
+    }
+    .split-copy h2,
+    .value-head h2 { font-size: 2.1rem; font-weight: 800; color: #1a1a2e; letter-spacing: -0.8px; line-height: 1.12; margin-bottom: 14px; }
+    .split-copy p { font-size: 1rem; color: #6f7788; line-height: 1.75; margin-bottom: 18px; }
+    .about-list { display: grid; gap: 12px; margin: 18px 0 24px; }
+    .about-item {
+      display: flex; gap: 12px; align-items: flex-start;
+      background: #fff; border: 1px solid #edf0f6; border-radius: 12px; padding: 16px 18px;
+    }
+    .about-item i { color: #f0a500; font-size: 1rem; margin-top: 3px; }
+    .about-item strong { display: block; color: #1a1a2e; margin-bottom: 4px; }
+    .about-item span { color: #888; font-size: 0.88rem; line-height: 1.55; }
+    .value-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .value-card {
+      background: #fff; border: 1px solid #edf0f6; border-radius: 14px; padding: 24px 18px;
+      transition: border-color 0.3s ease-out, transform 0.3s ease-out;
+    }
+    .value-card:hover { border-color: #f0a500; transform: translateY(-3px); }
+    .value-card span {
+      display: inline-flex; width: 42px; height: 42px; border-radius: 12px; align-items: center; justify-content: center;
+      background: #f8f9fc; color: #f0a500; margin-bottom: 12px; font-weight: 800;
+    }
+    .value-card h4 { font-size: 0.95rem; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+    .value-card p { font-size: 0.84rem; color: #888; line-height: 1.6; }
+    .company-cta {
+      background: #1a1a2e; border-radius: 16px; padding: 42px 46px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    }
+    .company-cta h3 { font-size: 1.35rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .company-cta p { font-size: 0.94rem; color: rgba(255,255,255,0.56); max-width: 520px; line-height: 1.7; }
+    .company-cta .btn-primary { background: #f0a500; border-color: #f0a500; color: #1a1a2e; }
+    .company-cta .btn-primary:hover { background: #d49400; border-color: #d49400; }
+    @media (max-width: 900px) {
+      .page-hero { padding: 56px 0 44px; }
+      .page-hero h1 { font-size: 2rem; }
+      .page-section { padding: 56px 0; }
+      .split-layout { grid-template-columns: 1fr; }
+      .company-grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
+      .value-grid { grid-template-columns: repeat(2, 1fr); }
+      .company-cta { flex-direction: column; text-align: center; padding: 28px 24px; }
+      .company-cta p { max-width: 100%; }
+      .company-cta .btn-primary { width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .page-hero { padding: 44px 0 32px; }
+      .page-hero h1 { font-size: 1.52rem; }
+      .page-hero p { font-size: 0.92rem; }
+      .hero-stats { gap: 16px; }
+      .hero-stats .stat-num { font-size: 1.45rem; }
+      .page-section { padding: 40px 0; }
+      .section-title,
+      .split-copy h2,
+      .value-head h2 { font-size: 1.5rem; }
+      .section-sub { font-size: 0.88rem; margin-bottom: 24px; }
+      .value-grid { grid-template-columns: 1fr; }
+      .company-cta { padding: 24px 20px; }
+      .company-cta h3 { font-size: 1.1rem; }
+      .company-cta p { font-size: 0.86rem; }
+      .split-visual img { aspect-ratio: 1 / 0.9; }
+    }
+  </style>
+  <link rel="stylesheet" href="../theme.css">
+</head>
+<body>
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <span><i class="fas fa-clock"></i> 24/7 Support</span>
+      <span class="top-bar-divider"></span>
+      <span><i class="fas fa-warehouse"></i> 6 US Warehouses</span>
+      <span class="top-bar-divider"></span>
+      <span><i class="fas fa-phone"></i> (888) 555-1234</span>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="../index.html" class="logo">SwiftLogix</a>
+      <nav class="nav" id="nav">
+        <ul class="nav-list">
+          <li class="nav-item dropdown">
+            <a href="services.html" class="nav-link">Services <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+              <li><a href="services.html">Overview</a></li>
+              <li><a href="pick-and-pack.html">Pick and Pack</a></li>
+              <li><a href="warehousing-storage.html">Warehousing / Storage</a></li>
+              <li><a href="fba-prep.html">FBA Prep</a></li>
+              <li><a href="returns-management.html">Returns Management</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a href="pricing.html" class="nav-link">Pricing</a></li>
+          <li class="nav-item"><a href="integrations.html" class="nav-link">Integrations</a></li>
+          <li class="nav-item"><a href="resources.html" class="nav-link">Resources</a></li>
+          <li class="nav-item dropdown">
+            <a href="about.html" class="nav-link active">Company <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+              <li><a href="about.html">About</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="nav-actions">
+          <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+          <a href="pricing.html" class="btn btn-outline">Login</a>
+          <a href="pricing.html" class="btn btn-primary">Get a Quote</a>
+        </div>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <img class="hero-bg-img" src="../FDimage/hero-about.jpg" alt="" aria-hidden="true">
+    <div class="page-inner">
+      <span class="page-badge">Company</span>
+      <h1>About SwiftLogix</h1>
+      <p>We build a fulfillment operation that brands can trust, with the speed, visibility, and service needed to keep every order moving cleanly from warehouse to doorstep.</p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">6</span><span class="stat-label">US Warehouses</span></div>
+        <div class="stat"><span class="stat-num">2M+</span><span class="stat-label">Orders Fulfilled</span></div>
+        <div class="stat"><span class="stat-num">99.7%</span><span class="stat-label">Pick Accuracy</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-inner">
+      <div class="split-layout">
+        <div class="split-visual">
+          <img src="../FDimage/home-dashboard.jpg" alt="Operations dashboard showing fulfillment visibility and reporting" loading="lazy" decoding="async">
+        </div>
+        <div class="split-copy">
+          <span class="section-label">Our mission</span>
+          <h2>Make fulfillment feel like an advantage, not a bottleneck.</h2>
+          <p>SwiftLogix helps fast-growing brands ship with confidence through better inventory control, smart routing, and a team that treats every shipment like it matters.</p>
+          <div class="about-list">
+            <div class="about-item">
+              <i class="fas fa-check"></i>
+              <div>
+                <strong>Operational clarity</strong>
+                <span>One connected view of inventory, orders, and shipping performance.</span>
+              </div>
+            </div>
+            <div class="about-item">
+              <i class="fas fa-check"></i>
+              <div>
+                <strong>Premium handling</strong>
+                <span>From inbound receiving to returns, every step is structured for quality.</span>
+              </div>
+            </div>
+            <div class="about-item">
+              <i class="fas fa-check"></i>
+              <div>
+                <strong>Responsive support</strong>
+                <span>A logistics partner that keeps your team informed and your customers happy.</span>
+              </div>
+            </div>
+          </div>
+          <a href="pricing.html" class="btn btn-primary btn-lg">See pricing</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-inner">
+      <div class="value-head">
+        <span class="section-label" style="display:block;text-align:center;">What we value</span>
+        <h2 class="section-title" style="margin-bottom: 8px;">Built to serve brands that expect more.</h2>
+        <p class="section-sub">The company is set up around three things that matter most in logistics: reliability, transparency, and speed.</p>
+      </div>
+      <div class="value-grid">
+        <article class="value-card">
+          <span>01</span>
+          <h4>Reliability</h4>
+          <p>Every workflow is designed to be repeatable, measurable, and easy to trust.</p>
+        </article>
+        <article class="value-card">
+          <span>02</span>
+          <h4>Transparency</h4>
+          <p>Clear visibility into order movement, inventory status, and fulfillment performance.</p>
+        </article>
+        <article class="value-card">
+          <span>03</span>
+          <h4>Speed</h4>
+          <p>Fast turnaround times supported by organized warehousing and smart routing.</p>
+        </article>
+        <article class="value-card">
+          <span>04</span>
+          <h4>Care</h4>
+          <p>A professional team focused on protecting the customer experience at every handoff.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-inner">
+      <div class="company-cta">
+        <div>
+          <h3>Ready to work with a fulfillment partner that looks and performs like a premium operation?</h3>
+          <p>Get a quote, compare service levels, or connect your store. We’ll help you build a setup that feels purpose-built for your brand.</p>
+        </div>
+        <a href="pricing.html" class="btn btn-primary btn-lg">Get a quote</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="section-shell footer-shell">
+      <div class="footer-panel">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <h3>SwiftLogix</h3>
+            <p>Premium fulfillment partner for ecommerce brands. Warehousing, pick and pack, FBA prep, integrations, and returns with speed, clarity, and control.</p>
+            <div class="footer-badges">
+              <span><i class="fas fa-clock"></i> 24/7 Support</span>
+              <span><i class="fas fa-warehouse"></i> 6 US Warehouses</span>
+              <span><i class="fas fa-truck-fast"></i> Same-day dispatch</span>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul class="footer-links-list">
+              <li><a href="pick-and-pack.html">Pick and Pack</a></li>
+              <li><a href="warehousing-storage.html">Warehousing & Storage</a></li>
+              <li><a href="fba-prep.html">FBA Prep</a></li>
+              <li><a href="returns-management.html">Returns Management</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Resources</h4>
+            <ul class="footer-links-list">
+              <li><a href="pricing.html">Pricing</a></li>
+              <li><a href="integrations.html">Integrations</a></li>
+              <li><a href="resources.html">Resources</a></li>
+              <li><a href="about.html">About</a></li>
+            </ul>
+          </div>
+          <div class="footer-col footer-contact">
+            <h4>Contact</h4>
+            <strong>(888) 555-1234</strong>
+            <a href="mailto:hello@swiftlogix.com">hello@swiftlogix.com</a>
+            <p>Serving ecommerce brands nationwide with scalable fulfillment operations.</p>
+            <div class="footer-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 SwiftLogix. All rights reserved.</span>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Shipping Policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

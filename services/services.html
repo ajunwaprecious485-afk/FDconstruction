@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services | SwiftLogix</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .page-hero {
+      background: linear-gradient(135deg, rgba(26,26,46,0.93) 0%, rgba(45,45,74,0.88) 100%);
+      padding: 84px 0 70px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+    .page-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 34px;
+      align-items: center;
+    }
+    .hero-copy { padding: 8px 0; }
+    .page-badge {
+      display: inline-block; background: rgba(240,165,0,0.12); color: #f0a500;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase;
+      padding: 6px 18px; border-radius: 100px; border: 1px solid rgba(240,165,0,0.2); margin-bottom: 18px;
+    }
+    .page-hero h1 { font-size: 2.9rem; font-weight: 800; color: #fff; margin-bottom: 12px; letter-spacing: -1px; line-height: 1.02; }
+    .page-hero p { font-size: 1.08rem; color: rgba(255,255,255,0.64); max-width: 690px; margin: 0 auto; line-height: 1.75; }
+    .hero-copy .page-hero p { max-width: 100%; margin: 0; }
+    .hero-stats { display: flex; justify-content: flex-start; gap: 34px; flex-wrap: wrap; margin-top: 34px; }
+    .hero-stats .stat { text-align: center; }
+    .hero-stats .stat-num { display: block; font-size: 1.9rem; font-weight: 800; color: #f0a500; }
+    .hero-stats .stat-label { color: rgba(255,255,255,0.58); font-size: 0.82rem; }
+    .hero-visual {
+      position: relative;
+      min-height: 420px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.24);
+    }
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.02);
+      filter: saturate(0.98) contrast(1.02);
+    }
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(10, 15, 30, 0.06) 0%, rgba(10, 15, 30, 0.26) 100%),
+        linear-gradient(135deg, rgba(240,165,0,0.14), transparent 42%);
+      pointer-events: none;
+    }
+    .hero-floating {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 14px;
+      z-index: 2;
+    }
+    .hero-floating .panel {
+      background: rgba(11,16,32,0.76);
+      backdrop-filter: blur(14px);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.18);
+    }
+    .hero-floating .panel strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+    .hero-floating .panel span {
+      display: block;
+      color: rgba(255,255,255,0.64);
+      font-size: 0.84rem;
+      line-height: 1.45;
+    }
+    .hero-floating .chip {
+      background: rgba(255,255,255,0.92);
+      color: #1a1a2e;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      box-shadow: 0 14px 28px rgba(0,0,0,0.14);
+      white-space: nowrap;
+    }
+    .page-section { padding: 82px 0; }
+    .page-section:nth-child(even) { background: #f6f8fc; }
+    .section-label {
+      display: inline-block; background: rgba(240,165,0,0.1); color: #f0a500;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase;
+      padding: 6px 18px; border-radius: 100px; border: 1px solid rgba(240,165,0,0.2); margin-bottom: 12px;
+    }
+    .section-head { text-align: center; margin-bottom: 34px; }
+    .section-head h2 { font-size: 2.1rem; font-weight: 800; color: #1a1a2e; letter-spacing: -0.8px; }
+    .section-head p { font-size: 1rem; color: #7b8191; max-width: 650px; margin: 10px auto 0; line-height: 1.7; }
+    .service-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+    .service-card {
+      background: #fff; border: 1px solid #edf0f6; border-radius: 18px; overflow: hidden;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+      transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, border-color 0.25s ease-out;
+    }
+    .service-card:hover { transform: translateY(-4px); border-color: #f0a500; box-shadow: 0 24px 50px rgba(15, 23, 42, 0.1); }
+    .service-card img {
+      width: 100%; height: 260px; object-fit: cover; display: block;
+    }
+    .service-card .body { padding: 22px 22px 24px; }
+    .service-card .tag {
+      display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase;
+      color: #f0a500; margin-bottom: 8px;
+    }
+    .service-card h3 { font-size: 1.2rem; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+    .service-card p { color: #7b8191; line-height: 1.7; font-size: 0.95rem; margin-bottom: 14px; }
+    .service-card a {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 0.92rem; font-weight: 700;
+      color: #f0a500; text-decoration: none;
+    }
+    .service-card a:hover { text-decoration: underline; }
+    .split-layout {
+      display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 28px; align-items: center;
+    }
+    .split-visual img {
+      width: 100%; display: block; border-radius: 26px; box-shadow: 0 18px 42px rgba(8, 17, 31, 0.14);
+      object-fit: cover; aspect-ratio: 1.15 / 1;
+    }
+    .split-copy h2 { font-size: 2.15rem; font-weight: 800; color: #1a1a2e; letter-spacing: -0.8px; line-height: 1.12; margin-bottom: 12px; }
+    .split-copy p { font-size: 1rem; color: #6f7788; line-height: 1.75; margin-bottom: 18px; }
+    .benefits { display: grid; gap: 12px; margin-bottom: 26px; }
+    .benefit {
+      display: flex; gap: 12px; align-items: flex-start; background: #fff; border: 1px solid #edf0f6;
+      border-radius: 14px; padding: 16px 18px;
+    }
+    .benefit i { color: #f0a500; margin-top: 3px; }
+    .benefit strong { display: block; color: #1a1a2e; margin-bottom: 3px; }
+    .benefit span { color: #7b8191; font-size: 0.9rem; line-height: 1.55; }
+    .service-cta {
+      background: #1a1a2e; border-radius: 18px; padding: 42px 46px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    }
+    .service-cta h3 { font-size: 1.35rem; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .service-cta p { font-size: 0.94rem; color: rgba(255,255,255,0.56); max-width: 540px; line-height: 1.7; }
+    .service-cta .btn-primary { background: #f0a500; border-color: #f0a500; color: #1a1a2e; }
+    .service-cta .btn-primary:hover { background: #d49400; border-color: #d49400; }
+    @media (max-width: 900px) {
+      .page-hero { padding: 56px 0 46px; }
+      .hero-layout { grid-template-columns: 1fr; gap: 24px; }
+      .page-hero h1 { font-size: 2rem; }
+      .page-section { padding: 56px 0; }
+      .service-grid { grid-template-columns: 1fr; }
+      .split-layout { grid-template-columns: 1fr; }
+      .service-cta { flex-direction: column; text-align: center; padding: 28px 24px; }
+      .service-cta p { max-width: 100%; }
+      .service-cta .btn-primary { width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .page-hero { padding: 44px 0 36px; }
+      .page-hero h1 { font-size: 1.55rem; }
+      .page-hero p { font-size: 0.92rem; }
+      .hero-stats { gap: 16px; margin-top: 24px; }
+      .hero-stats .stat-num { font-size: 1.45rem; }
+      .hero-visual { min-height: 300px; }
+      .hero-floating { left: 12px; right: 12px; bottom: 12px; grid-template-columns: 1fr; }
+      .page-section { padding: 40px 0; }
+      .section-head h2,
+      .split-copy h2 { font-size: 1.5rem; }
+      .section-head p { font-size: 0.9rem; }
+      .service-card img { height: 210px; }
+      .service-cta { padding: 24px 20px; }
+      .service-cta h3 { font-size: 1.08rem; }
+      .service-cta p { font-size: 0.86rem; }
+    }
+  </style>
+  <link rel="stylesheet" href="../theme.css">
+</head>
+<body>
+
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <span><i class="fas fa-clock"></i> 24/7 Support</span>
+      <span class="top-bar-divider"></span>
+      <span><i class="fas fa-warehouse"></i> 6 US Warehouses</span>
+      <span class="top-bar-divider"></span>
+      <span><i class="fas fa-phone"></i> (888) 555-1234</span>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="../index.html" class="logo">SwiftLogix</a>
+      <nav class="nav" id="nav">
+        <ul class="nav-list">
+          <li class="nav-item dropdown">
+            <a href="services.html" class="nav-link active">Services <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+              <li><a href="services.html">Overview</a></li>
+              <li><a href="pick-and-pack.html">Pick and Pack</a></li>
+              <li><a href="warehousing-storage.html">Warehousing / Storage</a></li>
+              <li><a href="fba-prep.html">FBA Prep</a></li>
+              <li><a href="returns-management.html">Returns Management</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a href="pricing.html" class="nav-link">Pricing</a></li>
+          <li class="nav-item"><a href="integrations.html" class="nav-link">Integrations</a></li>
+          <li class="nav-item"><a href="resources.html" class="nav-link">Resources</a></li>
+          <li class="nav-item dropdown">
+            <a href="about.html" class="nav-link">Company <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+              <li><a href="about.html">About</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="nav-actions">
+          <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+          <a href="pricing.html" class="btn btn-outline">Login</a>
+          <a href="pricing.html" class="btn btn-primary">Get a Quote</a>
+        </div>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="page-inner">
+      <div class="hero-layout">
+        <div class="hero-copy">
+          <span class="page-badge">Services</span>
+          <h1>Every fulfillment service, organized around real outcomes.</h1>
+          <p>From pick and pack to warehousing, technology, and returns, each service page now has a purpose-built image and a clear explanation of what the section does.</p>
+          <div class="hero-stats">
+            <div class="stat"><span class="stat-num">4</span><span class="stat-label">Core Services</span></div>
+            <div class="stat"><span class="stat-num">6</span><span class="stat-label">US Warehouses</span></div>
+            <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">Visibility</span></div>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="Professional fulfillment warehouse image">
+          <img src="../FDimage/hero-services.jpg" alt="Professional fulfillment warehouse showing inventory handling and shipping operations" loading="eager" decoding="async">
+          <div class="hero-floating">
+            <div class="panel">
+              <strong>Fulfillment operations</strong>
+              <span>The image reinforces the page purpose: a premium warehouse workflow built for speed and accuracy.</span>
+            </div>
+            <div class="chip">Purpose-built image</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-inner">
+      <div class="section-head">
+        <span class="section-label">Service overview</span>
+        <h2>Choose the image that matches the job each service performs.</h2>
+        <p>This section pairs each offering with the exact kind of fulfillment photo it should have, so the page feels intentional and professional.</p>
+      </div>
+      <div class="service-grid">
+        <article class="service-card">
+          <img src="../FDimage/home-service-fulfillment.jpg" alt="Warehouse team picking and packing orders for shipment" loading="lazy" decoding="async">
+          <div class="body">
+            <span class="tag">Pick &amp; Pack</span>
+            <h3>Fast order assembly and branded shipping.</h3>
+            <p>Best shown with an active packing station or parcel workflow image that communicates speed, accuracy, and quality control.</p>
+            <a href="pick-and-pack.html">Open Pick &amp; Pack <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="service-card">
+          <img src="../FDimage/home-service-warehouse.jpg" alt="Organized warehouse aisles with storage racks and inventory" loading="lazy" decoding="async">
+          <div class="body">
+            <span class="tag">Warehousing</span>
+            <h3>Secure inventory storage and routing.</h3>
+            <p>Use a photo of organized shelving, pallets, or warehouse aisles to show clean storage and reliable inventory handling.</p>
+            <a href="warehousing-storage.html">Open Warehousing <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="service-card">
+          <img src="../FDimage/home-service-tech.jpg" alt="Fulfillment software dashboard showing integrations and live order visibility" loading="lazy" decoding="async">
+          <div class="body">
+            <span class="tag">Integrations</span>
+            <h3>Connected systems and live order data.</h3>
+            <p>A dashboard, software stack, or connected operations image is the right fit here because the section explains platform visibility.</p>
+            <a href="integrations.html">Open Integrations <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+        <article class="service-card">
+          <img src="../FDimage/home-service-returns.jpg" alt="Returns processing team handling inspection and restocking" loading="lazy" decoding="async">
+          <div class="body">
+            <span class="tag">Returns</span>
+            <h3>Inspection, grading, and restocking.</h3>
+            <p>This section works best with a returns-specific photo like inspection, sorting, or restocking so the process is obvious at a glance.</p>
+            <a href="returns-management.html">Open Returns <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section" style="background:#f6f8fc;">
+    <div class="page-inner">
+      <div class="split-layout">
+        <div class="split-visual">
+          <img src="../FDimage/home-dashboard.jpg" alt="Fulfillment operations dashboard showing status, inventory, and shipping performance" loading="lazy" decoding="async">
+        </div>
+        <div class="split-copy">
+          <span class="section-label">Built for scale</span>
+          <h2>One premium visual system across every service page.</h2>
+          <p>We keep the imagery aligned with the page function, so each section has a photo that actually supports the message instead of looking decorative.</p>
+          <div class="benefits">
+            <div class="benefit">
+              <i class="fas fa-check"></i>
+              <div>
+                <strong>Purpose-driven images</strong>
+                <span>Each page now uses a relevant shipping, warehouse, or operations photo that matches the service.</span>
+              </div>
+            </div>
+            <div class="benefit">
+              <i class="fas fa-check"></i>
+              <div>
+                <strong>Responsive layout</strong>
+                <span>Cards, heroes, and image blocks stack cleanly on mobile without losing the premium look.</span>
+              </div>
+            </div>
+            <div class="benefit">
+              <i class="fas fa-check"></i>
+              <div>
+                <strong>Clear navigation</strong>
+                <span>The header now sends people to a real Services overview, plus specific Pricing, Integrations, Resources, and Company pages.</span>
+              </div>
+            </div>
+          </div>
+          <a href="pricing.html" class="btn btn-primary btn-lg">View pricing</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-inner">
+      <div class="service-cta">
+        <div>
+          <h3>Want the rest of the site to match this same level of image specificity?</h3>
+          <p>I can keep tightening the other sections so every hero, card, and feature block uses the exact photo that belongs there.</p>
+        </div>
+        <a href="about.html" class="btn btn-primary">See Company</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer" aria-label="Site footer">
+    <div class="section-shell footer-shell">
+      <div class="footer-panel">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <h3>SwiftLogix</h3>
+            <p>Premium fulfillment partner for ecommerce brands. Warehousing, pick and pack, FBA prep, integrations, and returns with speed, clarity, and control.</p>
+            <div class="footer-badges">
+              <span><i class="fas fa-clock"></i> 24/7 Support</span>
+              <span><i class="fas fa-warehouse"></i> 6 US Warehouses</span>
+              <span><i class="fas fa-truck-fast"></i> Same-day dispatch</span>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul class="footer-links-list">
+              <li><a href="pick-and-pack.html">Pick and Pack</a></li>
+              <li><a href="warehousing-storage.html">Warehousing & Storage</a></li>
+              <li><a href="fba-prep.html">FBA Prep</a></li>
+              <li><a href="returns-management.html">Returns Management</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Resources</h4>
+            <ul class="footer-links-list">
+              <li><a href="pricing.html">Pricing</a></li>
+              <li><a href="integrations.html">Integrations</a></li>
+              <li><a href="resources.html">Resources</a></li>
+              <li><a href="about.html">About</a></li>
+            </ul>
+          </div>
+          <div class="footer-col footer-contact">
+            <h4>Contact</h4>
+            <strong>(888) 555-1234</strong>
+            <a href="mailto:hello@swiftlogix.com">hello@swiftlogix.com</a>
+            <p>Serving ecommerce brands nationwide with scalable fulfillment operations.</p>
+            <div class="footer-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>&copy; 2026 SwiftLogix. All rights reserved.</span>
+          <div class="footer-bottom-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Shipping Policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('nav');
+    if (hamburger && nav) {
+      hamburger.addEventListener('click', function() {
+        nav.classList.toggle('open');
+        hamburger.classList.toggle('active');
+      });
+    }
+  </script>
+</body>
+</html>
